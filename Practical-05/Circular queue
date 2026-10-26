@@ -1,5 +1,5 @@
-/ Name: Arya Chand
-// Roll no: SEA24
+/ Name: Purva gadekar
+// Roll no: SEA48
 // Circular QueueImplementation Using Array for Parcel Handling System
 #include<stdio.h>
 #define size 5
