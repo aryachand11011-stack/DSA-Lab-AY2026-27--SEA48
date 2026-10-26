@@ -1,0 +1,137 @@
+//NAME: Arya Chand
+//ROLL NO.: SEA24
+Train Ticket Booking system using Linked List:-
+\\Code\\
+#include <stdio.h>
+#include <stdlib.h>
+struct Node
+{
+int ticket;
+struct Node *next;
+};
+struct Node *confirmed=NULL;
+struct Node *waiting=NULL;
+int seats = 4;
+int fare = 500;
+void add(struct Node **head,int ticket)
+{
+struct Node *newNode, *temp;
+newNode=(struct Node*)malloc (sizeof(struct Node));
+newNode->ticket=ticket;
+newNode->next=NULL;
+if (*head==NULL)
+*head=newNode;
+else
+{
+temp=*head;
+while (temp->next!=NULL)
+temp=temp->next;
+temp->next=newNode;
+}
+}
+void book(int ticket)
+{
+if (seats>0)
+{
+add(&confirmed,ticket);
+seats--;
+printf("Ticket %d confirmed.\n",ticket); printf("Fare =Rs.%d\n",fare);
+}
+else
+{
+add(&waiting,ticket);
+printf("No seat available.\n");
+printf("Ticket %d added to waiting list.\n",ticket);
+}
+}
+void cancel(int ticket)
+{
+struct Node *temp=confirmed;
+struct Node *prev=NULL;
+while(temp!=NULL)
+{
+if (temp->ticket==ticket)
+break;
+prev=temp;
+temp=temp->next;
+}
+if(temp==NULL)
+{
+printf("Ticket not Found.\n");
+return;
+}
+if(prev==NULL)
+confirmed=temp->next;
+else
+prev->next=temp->next;
+free(temp);
+printf("Ticket %d cancelled.\n",ticket);
+printf("Refund=Rs.%d\n",fare);
+if(waiting!=NULL)
+{
+temp=waiting;
+waiting=waiting->next;
+add(&confirmed,temp->ticket);
+printf("Ticket %d is now confirmed.\n",temp->ticket);
+free(temp); }
+else
+{
+seats++;
+}
+}
+void display()
+{
+struct Node *temp;
+printf("\nConfirmed:");
+temp=confirmed;
+while(temp!=NULL)
+{
+printf("%d ",temp->ticket);
+temp=temp->next;
+}
+printf("\nWaiting:");
+temp=waiting;
+while(temp!=NULL)
+{
+printf("%d ",temp->ticket);
+temp=temp->next;
+}
+printf("\n");
+}
+int main()
+{
+int choice,ticket;
+while(1)
+{
+printf("\n1.Book Ticket");
+printf("\n2.Cancel Ticket ");
+printf("\n3.Display");
+printf("\n4.Exit");
+printf("\nEnter choice:");
+scanf("%d",&choice); if(choice==1)
+{
+printf("Enter ticket number:");
+scanf("%d",&ticket);
+book(ticket);
+}
+else if(choice==2)
+{
+printf("Enter ticket number:");
+scanf("%d",&ticket);
+cancel(ticket);
+}
+else if(choice==3)
+{
+display();
+}
+else if(choice==4)
+{
+break;
+}
+else
+{
+printf("Invalid choice.\n");
+}
+}
+return 0;
+}
